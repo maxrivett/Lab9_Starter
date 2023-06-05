@@ -69,24 +69,32 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button>Console Log</button> <!--0-->
+      <button>Console Error</button> <!--1-->
+      <button>Console Count</button> <!--2-->
+      <button>Console Warn</button> <!--3-->
+      <button>Console Assert</button> <!--4-->
+      <button>Console Clear</button> <!--5-->
+      <button>Console Dir</button> <!--6-->
+      <button>Console dirxml</button> <!--7-->
+      <button>Console Group Start</button> <!--8-->
+      <button>Console Group End</button> <!--9-->
+      <button>Console Table</button> <!--10-->
+      <button>Start Timer</button> <!--11-->
+      <button>End Timer</button> <!--12-->
+      <button>Console Trace</button> <!--13-->
+      <button>Trigger a Global Error</button> <!--14-->
     </section>
   </main>
-
+  <!-- TRACK JS -->
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "e3b5bbe81b794e75b54df1d98e76b10a"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+  </script>
+                          
   <script>
     let form = document.querySelector('form');
     form.addEventListener('submit', e => {
@@ -102,6 +110,91 @@
 
     // Start your code here
     // You may move this JS to another file if you wish
+    // i do not wish
+    
+    TrackJS.track('Testing TrackJS!');
+                        
+    // button functionality
+    errorBtns.forEach((button, index) => {
+      button.addEventListener('click', () => {
+        switch (index) {
+          case 0:
+            console.log("Console Log");
+            break;
+          case 1:
+            console.error("Console Error");
+            break;
+          case 2:
+            console.count("Console Count");
+            break;
+          case 3:
+            console.warn("Console Warn");
+            break;
+          case 4:
+            console.assert(2 === 3);
+            break;
+          case 5:
+            console.clear();
+            break;
+          case 6:
+            console.dir(button);
+            break;
+          case 7:
+            console.dirxml(button);
+            break;
+          case 8:
+            console.group();
+            break;
+          case 9:
+            console.groupEnd();
+            break;
+          case 10:
+            console.table({a: 1, b: 2});
+            break;
+          case 11:
+            console.time("Console Timer");
+            break;
+          case 12:
+            console.timeEnd("Console Timer");
+            break;
+          case 13:
+            console.trace("Console Trace");
+            break;
+          case 14:
+            throw new Error("Triggered Global Error");
+            break;
+        }
+      });
+    });
+
+    // try catch and finally
+    try {
+      let boundToCauseError = document.querySelector('boundToCauseError');
+      boundToCauseError.innerHTML = ":)";
+      throw new Error("Error thrown");
+    } catch (error) {
+      console.error(error.message);
+    } finally {
+      console.log("Done error handling");
+    }
+
+    // custom error
+    class CustomError extends Error {
+      constructor(message) {
+        super(message);
+        this.name = "CustomError";
+      }
+    }
+    try {
+      throw new CustomError("This is a custom error");
+    } catch (error) {
+      console.error(error.name);
+    }
+
+    // global error handler
+    window.onerror = (message, source, lineno, colno, error) => {
+      console.log(`An error occurred: ${message}`);
+    }
   </script>
 </body>
 
